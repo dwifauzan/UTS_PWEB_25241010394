@@ -17,6 +17,87 @@ class PageController extends Controller
         return $username !== '' ? $username : 'Tamu';
     }
 
+    /**
+     * Data buku statis (belum memakai database).
+     */
+    private function getBooks(): array
+    {
+        return [
+            [
+                'judul' => 'Laskar Pelangi',
+                'penulis' => 'Andrea Hirata',
+                'genre' => 'Fiksi',
+                'tahun' => 2005,
+                'halaman' => 529,
+                'halaman_dibaca' => 529,
+                'status' => 'Selesai',
+            ],
+            [
+                'judul' => 'Bumi Manusia',
+                'penulis' => 'Pramoedya Ananta Toer',
+                'genre' => 'Fiksi Sejarah',
+                'tahun' => 1980,
+                'halaman' => 535,
+                'halaman_dibaca' => 312,
+                'status' => 'Sedang Dibaca',
+            ],
+            [
+                'judul' => 'Filosofi Teras',
+                'penulis' => 'Henry Manampiring',
+                'genre' => 'Pengembangan Diri',
+                'tahun' => 2018,
+                'halaman' => 346,
+                'halaman_dibaca' => 346,
+                'status' => 'Selesai',
+            ],
+            [
+                'judul' => 'Atomic Habits',
+                'penulis' => 'James Clear',
+                'genre' => 'Pengembangan Diri',
+                'tahun' => 2018,
+                'halaman' => 320,
+                'halaman_dibaca' => 145,
+                'status' => 'Sedang Dibaca',
+            ],
+            [
+                'judul' => 'Cantik Itu Luka',
+                'penulis' => 'Eka Kurniawan',
+                'genre' => 'Fiksi',
+                'tahun' => 2002,
+                'halaman' => 505,
+                'halaman_dibaca' => 0,
+                'status' => 'Belum Dibaca',
+            ],
+            [
+                'judul' => 'Sapiens',
+                'penulis' => 'Yuval Noah Harari',
+                'genre' => 'Sejarah',
+                'tahun' => 2011,
+                'halaman' => 498,
+                'halaman_dibaca' => 60,
+                'status' => 'Sedang Dibaca',
+            ],
+            [
+                'judul' => 'Clean Code',
+                'penulis' => 'Robert C. Martin',
+                'genre' => 'Teknologi',
+                'tahun' => 2008,
+                'halaman' => 464,
+                'halaman_dibaca' => 0,
+                'status' => 'Belum Dibaca',
+            ],
+            [
+                'judul' => 'Negeri 5 Menara',
+                'penulis' => 'Ahmad Fuadi',
+                'genre' => 'Fiksi',
+                'tahun' => 2009,
+                'halaman' => 423,
+                'halaman_dibaca' => 423,
+                'status' => 'Selesai',
+            ],
+        ];
+    }
+
     public function login()
     {
         return view('login');
@@ -25,15 +106,34 @@ class PageController extends Controller
     public function dashboard(Request $request)
     {
         $username = $this->getUsername($request);
+        $books = collect($this->getBooks());
 
-        return view('dashboard', compact('username'));
+        $stats = [
+            'total' => $books->count(),
+            'selesai' => $books->where('status', 'Selesai')->count(),
+            'sedang' => $books->where('status', 'Sedang Dibaca')->count(),
+            'halaman_dibaca' => $books->sum('halaman_dibaca'),
+        ];
+
+        // Buku yang sedang dibaca + persentase progresnya
+        $sedangDibaca = $books
+            ->where('status', 'Sedang Dibaca')
+            ->map(function ($book) {
+                $book['progres'] = (int) round($book['halaman_dibaca'] / $book['halaman'] * 100);
+
+                return $book;
+            })
+            ->values();
+
+        return view('dashboard', compact('username', 'stats', 'sedangDibaca'));
     }
 
     public function pengelolaan(Request $request)
     {
         $username = $this->getUsername($request);
+        $books = $this->getBooks();
 
-        return view('pengelolaan', compact('username'));
+        return view('pengelolaan', compact('username', 'books'));
     }
 
     public function profile(Request $request)
