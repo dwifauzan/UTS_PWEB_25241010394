@@ -19,12 +19,14 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased">
-    {{-- Navbar ditambahkan di Tahap 3 --}}
+    @unless (request()->routeIs('login'))
+        <x-navbar :username="$username ?? request('username')" />
+    @endunless
 
     <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
         @yield('content')
     </main>
 
-    {{-- Footer ditambahkan di Tahap 3 via @include('components.footer') --}}
+    @include('components.footer')
 </body>
 </html>

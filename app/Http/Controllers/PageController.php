@@ -2,25 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class PageController extends Controller
 {
+    /**
+     * Ambil username dari query string (?username=...).
+     * Jika kosong, gunakan "Tamu" sebagai nilai default.
+     */
+    private function getUsername(Request $request): string
+    {
+        $username = trim((string) $request->query('username', ''));
+
+        return $username !== '' ? $username : 'Tamu';
+    }
+
     public function login()
     {
         return view('login');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        return view('dashboard');
+        $username = $this->getUsername($request);
+
+        return view('dashboard', compact('username'));
     }
 
-    public function pengelolaan()
+    public function pengelolaan(Request $request)
     {
-        return view('pengelolaan');
+        $username = $this->getUsername($request);
+
+        return view('pengelolaan', compact('username'));
     }
 
-    public function profile()
+    public function profile(Request $request)
     {
-        return view('profile');
+        $username = $this->getUsername($request);
+
+        return view('profile', compact('username'));
     }
 }
