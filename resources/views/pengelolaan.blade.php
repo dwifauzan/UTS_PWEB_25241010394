@@ -1,1 +1,7 @@
-<h1>Halaman pengelolaan (placeholder)</h1>
+@extends('layouts.app')
+
+@section('title', 'Pengelolaan')
+
+@section('content')
+    <h1 class="text-2xl font-bold">Halaman Pengelolaan (placeholder)</h1>
+@endsection
