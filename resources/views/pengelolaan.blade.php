@@ -3,50 +3,41 @@
 @section('title', 'Pengelolaan')
 
 @section('content')
-    <div class="mb-8">
-        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Pengelolaan Buku</h1>
-        <p class="mt-1 text-slate-500">Daftar seluruh buku di rakmu ({{ count($books) }} buku).</p>
-    </div>
+    <h1 class="text-2xl font-bold text-gray-900">Pengelolaan Buku</h1>
+    <p class="mt-1 text-gray-600">Daftar semua buku ({{ count($books) }} buku).</p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        @foreach ($books as $book)
-            <div class="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col">
-                <div class="flex items-start justify-between gap-3">
-                    <span class="text-xs font-medium text-slate-400">#{{ $loop->iteration }}</span>
-
-                    @if ($book['status'] === 'Selesai')
-                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">
-                            {{ $book['status'] }}
-                        </span>
-                    @elseif ($book['status'] === 'Sedang Dibaca')
-                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">
-                            {{ $book['status'] }}
-                        </span>
-                    @else
-                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
-                            {{ $book['status'] }}
-                        </span>
-                    @endif
-                </div>
-
-                <h2 class="mt-3 text-lg font-semibold text-slate-900">{{ $book['judul'] }}</h2>
-                <p class="text-sm text-slate-500">{{ $book['penulis'] }}</p>
-
-                <dl class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-3 gap-2 text-sm">
-                    <div>
-                        <dt class="text-slate-400">Genre</dt>
-                        <dd class="font-medium text-slate-700">{{ $book['genre'] }}</dd>
-                    </div>
-                    <div>
-                        <dt class="text-slate-400">Tahun</dt>
-                        <dd class="font-medium text-slate-700">{{ $book['tahun'] }}</dd>
-                    </div>
-                    <div>
-                        <dt class="text-slate-400">Halaman</dt>
-                        <dd class="font-medium text-slate-700">{{ $book['halaman_dibaca'] }}/{{ $book['halaman'] }}</dd>
-                    </div>
-                </dl>
-            </div>
-        @endforeach
+    <div class="mt-6 bg-white border border-gray-200 rounded-lg overflow-x-auto">
+        <table class="w-full min-w-[640px] text-sm text-left">
+            <thead class="bg-gray-50 text-gray-600">
+                <tr>
+                    <th class="px-4 py-3 font-medium">Judul</th>
+                    <th class="px-4 py-3 font-medium">Penulis</th>
+                    <th class="px-4 py-3 font-medium">Genre</th>
+                    <th class="px-4 py-3 font-medium">Tahun</th>
+                    <th class="px-4 py-3 font-medium">Halaman</th>
+                    <th class="px-4 py-3 font-medium">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                @foreach ($books as $book)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-medium text-gray-900">{{ $book['judul'] }}</td>
+                        <td class="px-4 py-3 text-gray-600">{{ $book['penulis'] }}</td>
+                        <td class="px-4 py-3 text-gray-600">{{ $book['genre'] }}</td>
+                        <td class="px-4 py-3 text-gray-600">{{ $book['tahun'] }}</td>
+                        <td class="px-4 py-3 text-gray-600">{{ $book['halaman_dibaca'] }} / {{ $book['halaman'] }}</td>
+                        <td class="px-4 py-3">
+                            @if ($book['status'] === 'Selesai')
+                                <span class="px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800">{{ $book['status'] }}</span>
+                            @elseif ($book['status'] === 'Sedang Dibaca')
+                                <span class="px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">{{ $book['status'] }}</span>
+                            @else
+                                <span class="px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">{{ $book['status'] }}</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection

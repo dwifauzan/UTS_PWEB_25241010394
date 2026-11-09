@@ -4,65 +4,52 @@
 
 @section('content')
     {{-- Sapaan --}}
-    <div class="mb-8">
-        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Halo, {{ $username }}! 👋</h1>
-        <p class="mt-1 text-slate-500">Berikut ringkasan aktivitas membacamu.</p>
-    </div>
+    <h1 class="text-2xl font-bold text-gray-900">Halo, {{ $username }}</h1>
+    <p class="mt-1 text-gray-600">Berikut ringkasan buku bacaanmu.</p>
 
     {{-- Kartu statistik --}}
     @php
         $cards = [
-            ['label' => 'Total Buku', 'value' => $stats['total'], 'icon' => '📚', 'color' => 'bg-indigo-50 text-indigo-600'],
-            ['label' => 'Selesai Dibaca', 'value' => $stats['selesai'], 'icon' => '✅', 'color' => 'bg-emerald-50 text-emerald-600'],
-            ['label' => 'Sedang Dibaca', 'value' => $stats['sedang'], 'icon' => '📖', 'color' => 'bg-amber-50 text-amber-600'],
-            ['label' => 'Halaman Dibaca', 'value' => number_format($stats['halaman_dibaca'], 0, ',', '.'), 'icon' => '📄', 'color' => 'bg-sky-50 text-sky-600'],
+            ['label' => 'Total Buku', 'value' => $stats['total']],
+            ['label' => 'Selesai Dibaca', 'value' => $stats['selesai']],
+            ['label' => 'Sedang Dibaca', 'value' => $stats['sedang']],
+            ['label' => 'Halaman Dibaca', 'value' => number_format($stats['halaman_dibaca'], 0, ',', '.')],
         ];
     @endphp
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
         @foreach ($cards as $card)
-            <div class="bg-white rounded-2xl border border-slate-200 p-5">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg {{ $card['color'] }}">
-                    {{ $card['icon'] }}
-                </div>
-                <p class="mt-4 text-2xl font-bold text-slate-900">{{ $card['value'] }}</p>
-                <p class="text-sm text-slate-500">{{ $card['label'] }}</p>
+            <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <p class="text-sm text-gray-500">{{ $card['label'] }}</p>
+                <p class="mt-1 text-2xl font-bold text-gray-900">{{ $card['value'] }}</p>
             </div>
         @endforeach
     </div>
 
     {{-- Daftar buku yang sedang dibaca --}}
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-slate-900">Sedang Dibaca</h2>
-        <a href="{{ route('pengelolaan', ['username' => $username]) }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700">
-            Lihat semua →
-        </a>
-    </div>
+    <div class="mt-8 bg-white border border-gray-200 rounded-lg">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+            <h2 class="font-semibold text-gray-900">Sedang Dibaca</h2>
+            <a href="{{ route('pengelolaan', ['username' => $username]) }}" class="text-sm text-blue-700 hover:underline">Lihat semua buku</a>
+        </div>
 
-    <div class="space-y-3">
-        @forelse ($sedangDibaca as $book)
-            <div class="bg-white rounded-2xl border border-slate-200 p-5">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                    <div>
-                        <h3 class="font-semibold text-slate-900">{{ $book['judul'] }}</h3>
-                        <p class="text-sm text-slate-500">{{ $book['penulis'] }} · {{ $book['genre'] }}</p>
+        <ul class="divide-y divide-gray-200">
+            @forelse ($sedangDibaca as $book)
+                <li class="px-4 py-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                        <div>
+                            <p class="font-medium text-gray-900">{{ $book['judul'] }}</p>
+                            <p class="text-sm text-gray-500">{{ $book['penulis'] }}</p>
+                        </div>
+                        <p class="text-sm text-gray-600">Halaman {{ $book['halaman_dibaca'] }} dari {{ $book['halaman'] }} ({{ $book['progres'] }}%)</p>
                     </div>
-                    <p class="text-sm text-slate-500">
-                        Hal. {{ $book['halaman_dibaca'] }} / {{ $book['halaman'] }}
-                    </p>
-                </div>
-
-                <div class="mt-4 flex items-center gap-3">
-                    <div class="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden">
-                        <div class="h-full rounded-full bg-amber-500" style="width: {{ $book['progres'] }}%"></div>
+                    <div class="mt-2 h-2 rounded bg-gray-200">
+                        <div class="h-2 rounded bg-blue-600" style="width: {{ $book['progres'] }}%"></div>
                     </div>
-                    <span class="text-sm font-medium text-slate-700 w-10 text-right">{{ $book['progres'] }}%</span>
-                </div>
-            </div>
-        @empty
-            <div class="bg-white rounded-2xl border border-dashed border-slate-300 p-8 text-center text-slate-500">
-                Belum ada buku yang sedang dibaca.
-            </div>
-        @endforelse
+                </li>
+            @empty
+                <li class="px-4 py-6 text-center text-sm text-gray-500">Belum ada buku yang sedang dibaca.</li>
+            @endforelse
+        </ul>
     </div>
 @endsection

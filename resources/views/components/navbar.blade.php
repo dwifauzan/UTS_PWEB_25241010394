@@ -8,51 +8,43 @@
     ];
 @endphp
 
-<nav class="bg-white border-b border-slate-200 sticky top-0 z-10">
-    <div class="max-w-6xl mx-auto px-4">
-        <div class="flex items-center justify-between h-16">
-            <a href="{{ route('dashboard', ['username' => $username]) }}" class="text-lg font-bold text-indigo-600">
-                Rak Buku
-            </a>
+<nav class="bg-white border-b border-gray-200">
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="flex items-center justify-between h-14">
+            <a href="{{ route('dashboard', ['username' => $username]) }}" class="font-bold text-lg text-blue-700">Rak Buku</a>
 
             {{-- Menu desktop --}}
-            <div class="hidden md:flex items-center gap-1">
+            <div class="hidden md:flex items-center gap-6 h-full">
                 @foreach ($links as $route => $label)
                     <a href="{{ route($route, ['username' => $username]) }}"
-                       class="px-3 py-2 rounded-lg text-sm font-medium transition-colors
-                              {{ request()->routeIs($route) ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                       class="h-full flex items-center text-sm border-b-2 {{ request()->routeIs($route) ? 'border-blue-700 text-blue-700 font-semibold' : 'border-transparent text-gray-600 hover:text-gray-900' }}">
                         {{ $label }}
                     </a>
                 @endforeach
             </div>
 
-            <div class="hidden md:flex items-center gap-3">
-                <span class="text-sm text-slate-600">Hai, <span class="font-semibold text-slate-900">{{ $username ?? 'Tamu' }}</span></span>
-                <a href="{{ route('login') }}" class="px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">Keluar</a>
+            <div class="hidden md:flex items-center gap-3 text-sm">
+                <span class="text-gray-600">Masuk sebagai <strong class="text-gray-900">{{ $username ?? 'Tamu' }}</strong></span>
+                <a href="{{ route('login') }}" class="px-3 py-1.5 rounded border border-gray-300 text-gray-700 hover:bg-gray-50">Keluar</a>
             </div>
 
             {{-- Tombol menu mobile --}}
-            <button type="button" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+            <button type="button" class="md:hidden px-3 py-1.5 rounded border border-gray-300 text-sm"
                     onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
-                    aria-label="Buka menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
+                    aria-controls="mobile-menu">Menu</button>
         </div>
 
         {{-- Menu mobile --}}
-        <div id="mobile-menu" class="hidden md:hidden pb-4 space-y-1">
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 py-2">
             @foreach ($links as $route => $label)
                 <a href="{{ route($route, ['username' => $username]) }}"
-                   class="block px-3 py-2 rounded-lg text-sm font-medium
-                          {{ request()->routeIs($route) ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600 hover:bg-slate-100' }}">
+                   class="block px-2 py-2 rounded text-sm {{ request()->routeIs($route) ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-50' }}">
                     {{ $label }}
                 </a>
             @endforeach
-            <div class="border-t border-slate-200 pt-2 mt-2 flex items-center justify-between px-3">
-                <span class="text-sm text-slate-600">Hai, <span class="font-semibold">{{ $username ?? 'Tamu' }}</span></span>
-                <a href="{{ route('login') }}" class="text-sm font-medium text-red-600">Keluar</a>
+            <div class="mt-2 pt-2 border-t border-gray-200 px-2 flex justify-between text-sm">
+                <span class="text-gray-600">Masuk sebagai <strong class="text-gray-900">{{ $username ?? 'Tamu' }}</strong></span>
+                <a href="{{ route('login') }}" class="text-gray-700 underline">Keluar</a>
             </div>
         </div>
     </div>

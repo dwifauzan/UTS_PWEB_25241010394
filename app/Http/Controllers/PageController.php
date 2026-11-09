@@ -139,7 +139,27 @@ class PageController extends Controller
     public function profile(Request $request)
     {
         $username = $this->getUsername($request);
+        $books = collect($this->getBooks());
 
-        return view('profile', compact('username'));
+        // Inisial avatar: huruf pertama tiap kata, maksimal 2 huruf
+        $inisial = collect(explode(' ', $username))
+            ->filter()
+            ->map(fn ($kata) => mb_strtoupper(mb_substr($kata, 0, 1)))
+            ->take(2)
+            ->implode('');
+
+        $selesai = $books->where('status', 'Selesai')->count();
+        $target = 12;
+
+        $profile = [
+            'inisial' => $inisial,
+            'bio' => 'Pembaca santai yang suka novel Indonesia dan buku pengembangan diri. Satu bab sebelum tidur.',
+            'target' => $target,
+            'selesai' => $selesai,
+            'progres' => (int) min(100, round($selesai / $target * 100)),
+            'genre_favorit' => ['Fiksi', 'Fiksi Sejarah', 'Pengembangan Diri', 'Teknologi'],
+        ];
+
+        return view('profile', compact('username', 'profile'));
     }
 }
