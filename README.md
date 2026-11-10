@@ -72,6 +72,6 @@ Buka `http://127.0.0.1:8000`, masukkan username, lalu klik **Masuk**.
 
 ## Penulis
 
-- Nama: _(isi nama)_
-- NIM: _(isi NIM)_
-- Kelas: _(isi kelas)_
+- Nama: Muhammad Dwi Fauzan
+- NIM: 252410103094
+- Kelas: E
