@@ -59,19 +59,16 @@ Buka `http://127.0.0.1:8000`, masukkan username, lalu klik **Masuk**.
 ## Screenshot
 
 ### Login
-![Halaman Login](docs/screenshots/login.png)
+![Halaman Login](doc/Screenshot%202026-11-10%20at%2022.49.59.png)
 
 ### Dashboard
-![Halaman Dashboard](docs/screenshots/dashboard.png)
+![Halaman Dashboard](doc/Screenshot%202026-11-10%20at%2022.50.14.png)
 
 ### Pengelolaan
-![Halaman Pengelolaan](docs/screenshots/pengelolaan.png)
+![Halaman Pengelolaan](doc/Screenshot%202026-11-10%20at%2022.50.18.png)
 
 ### Profile
-![Halaman Profile](docs/screenshots/profile.png)
-
-### Tampilan Mobile
-![Tampilan Mobile](docs/screenshots/mobile.png)
+![Halaman Profile](doc/Screenshot%202026-11-10%20at%2022.50.22.png)
 
 ## Penulis
 
